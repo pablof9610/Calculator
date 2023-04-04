@@ -8,8 +8,10 @@ calc.resizable(False, False)
 
 # frames
 f_result = tkinter.Frame(calc, width=300, height=35)
+# this holds the frame resize to the elements packed on it
 f_result.pack_propagate(0)
 f_op1 = tkinter.Frame(calc, width=70, height=200)
+# do the same thing with the elements gridded on it
 f_op1.grid_propagate(0)
 f_op2 = tkinter.Frame(calc, width=70, height=200)
 f_op2.grid_propagate(0)
@@ -37,14 +39,18 @@ def setlabelvalue(value, isresult=False):
 def result(value, operation):
     global lb_master
     global bfnumber
+    if '.' in value:
+        value = float(value)
+    else:
+        value = int(value)
     if operation == 1:
-        setlabelvalue(int(bfnumber) + int(value), True)
+        setlabelvalue(bfnumber + value, True)
     elif operation == 2:
-        setlabelvalue(int(bfnumber) - int(value), True)
+        setlabelvalue(bfnumber - value, True)
     elif operation == 3:
-        setlabelvalue(int(bfnumber) / int(value), True)
+        setlabelvalue(bfnumber / value, True)
     elif operation == 4:
-        setlabelvalue(int(bfnumber) * int(value), True)
+        setlabelvalue(bfnumber * value, True)
     else:
         unexpectederror = Tk()
         unexpectederror.title('Erro')
@@ -64,7 +70,10 @@ def setopbfn(operation, bfn):
     global lb_master
     lb_master['text'] = str(0)
     op = operation
-    bfnumber = bfn
+    if '.' in bfn:
+        bfnumber = float(bfn)
+    else:
+        bfnumber = int(bfn)
 
 
 # Objetcs
