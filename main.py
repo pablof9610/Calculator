@@ -1,8 +1,19 @@
+import tkinter
 from tkinter import *
 
+# main window
 calc = Tk()
-calc.geometry('300x400')
+calc.geometry('300x355')
 calc.resizable(False, False)
+
+# frames
+f_result = tkinter.Frame(calc, width=300, height=35)
+f_result.pack_propagate(0)
+f_op1 = tkinter.Frame(calc, width=70, height=200)
+f_op1.grid_propagate(0)
+f_op2 = tkinter.Frame(calc, width=70, height=200)
+f_op2.grid_propagate(0)
+f_buttons = tkinter.Frame(calc, width=150, height=200)
 
 # Var
 # used to indicate the operation the calc will do
@@ -16,10 +27,11 @@ bfnumber = ''
 # sets the label value when the user press a new number or call a operation
 def setlabelvalue(value, isresult=False):
     global lb_master
-    if isresult is True or lb_master['text'] == str(0):
+    if isresult is True or lb_master['text'] == str(0) and value != '.':
         lb_master['text'] = str(value)
     else:
         lb_master['text'] = lb_master['text'] + str(value)
+
 
 # calculate and update label value
 def result(value, operation):
@@ -41,6 +53,7 @@ def result(value, operation):
 
         errbtn.pack()
 
+
 # everytime a operation is called, this function sets globally
 # the number that represents the operation in a variable
 # and same way sets globally the before number that changed
@@ -55,26 +68,32 @@ def setopbfn(operation, bfn):
 
 
 # Objetcs
-lb_master = Label(calc, text='0',
+lb_master = Label(f_result, text='0',
                   font='Arial 15')
-btn1 = Button(calc, text='1', command=lambda: setlabelvalue(1), width=5, height=2)
-btn2 = Button(calc, text='2', command=lambda: setlabelvalue(2), width=5, height=2)
-btn3 = Button(calc, text='3', command=lambda: setlabelvalue(3), width=5, height=2)
-btn4 = Button(calc, text='4', command=lambda: setlabelvalue(4), width=5, height=2)
-btn5 = Button(calc, text='5', command=lambda: setlabelvalue(5), width=5, height=2)
-btn6 = Button(calc, text='6', command=lambda: setlabelvalue(6), width=5, height=2)
-btn7 = Button(calc, text='7', command=lambda: setlabelvalue(7), width=5, height=2)
-btn8 = Button(calc, text='8', command=lambda: setlabelvalue(8), width=5, height=2)
-btn9 = Button(calc, text='9', command=lambda: setlabelvalue(9), width=5, height=2)
-btn0 = Button(calc, text='0', command=lambda: setlabelvalue(0), width=5, height=2)
-btn_add = Button(calc, text='+', width=10, height=2, command=lambda: setopbfn(1, lb_master['text']))
-btn_dim = Button(calc, text='-', width=10, height=2, command=lambda: setopbfn(2, lb_master['text']))
-btn_div = Button(calc, text='/', width=10, height=2, command=lambda: setopbfn(3, lb_master['text']))
-btn_mult = Button(calc, text='*', width=10, height=2, command=lambda: setopbfn(4, lb_master['text']))
-btn_rs = Button(calc, text='=', width=10, height=2, command=lambda: result(lb_master['text'], op))
+btn1 = Button(f_buttons, text='1', command=lambda: setlabelvalue(1), width=6, height=2)
+btn2 = Button(f_buttons, text='2', command=lambda: setlabelvalue(2), width=6, height=2)
+btn3 = Button(f_buttons, text='3', command=lambda: setlabelvalue(3), width=6, height=2)
+btn4 = Button(f_buttons, text='4', command=lambda: setlabelvalue(4), width=6, height=2)
+btn5 = Button(f_buttons, text='5', command=lambda: setlabelvalue(5), width=6, height=2)
+btn6 = Button(f_buttons, text='6', command=lambda: setlabelvalue(6), width=6, height=2)
+btn7 = Button(f_buttons, text='7', command=lambda: setlabelvalue(7), width=6, height=2)
+btn8 = Button(f_buttons, text='8', command=lambda: setlabelvalue(8), width=6, height=2)
+btn9 = Button(f_buttons, text='9', command=lambda: setlabelvalue(9), width=6, height=2)
+btn0 = Button(f_buttons, text='0', command=lambda: setlabelvalue(0), width=6, height=2)
+btn_add = Button(f_op1, text='+', width=9, height=2, command=lambda: setopbfn(1, lb_master['text']))
+btn_dim = Button(f_op1, text='-', width=9, height=2, command=lambda: setopbfn(2, lb_master['text']))
+btn_div = Button(f_op2, text='/', width=9, height=2, command=lambda: setopbfn(3, lb_master['text']))
+btn_mult = Button(f_op2, text='*', width=9, height=2, command=lambda: setopbfn(4, lb_master['text']))
+btn_pnt = Button(f_op2, text='.', width=9, height=2, command=lambda: setlabelvalue('.'))
+btn_rs = Button(f_op1, text='=', width=9, height=2, command=lambda: result(lb_master['text'], op))
 
-# Gridding
-lb_master.grid()
+
+# gridding & packing
+f_result.pack(side='top')
+f_op1.pack(side='left', anchor='nw')
+f_buttons.pack(side='left', anchor='nw')
+f_op2.pack(side='left', anchor='nw')
+lb_master.pack()
 btn1.grid(column=0, row=1)
 btn2.grid(column=1, row=1)
 btn3.grid(column=2, row=1)
@@ -84,11 +103,12 @@ btn6.grid(column=2, row=2)
 btn7.grid(column=0, row=3)
 btn8.grid(column=1, row=3)
 btn9.grid(column=2, row=3)
-btn0.grid(column=0, row=4)
-btn_add.grid(column=3, row=1)
-btn_dim.grid(column=4, row=1)
-btn_div.grid(column=3, row=2)
-btn_mult.grid(column=4, row=2)
-btn_rs.grid(column=3, row=3)
+btn0.grid(column=1, row=4)
+btn_add.grid(column=0, row=1)
+btn_dim.grid(column=0, row=2)
+btn_rs.grid(column=0, row=3)
+btn_div.grid(column=0, row=1)
+btn_mult.grid(column=0, row=2)
+btn_pnt.grid(column=0, row=3)
 
 calc.mainloop()
