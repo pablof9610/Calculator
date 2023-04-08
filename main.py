@@ -29,12 +29,15 @@ bfnumber = ''
 # sets the label value when the user press a new number or call a operation
 def setlabelvalue(value, isresult=False):
     global lb_master
-    if isresult is True or lb_master['text'] == str(0) and value != '.':
-        lb_master['text'] = str(value)
+    if '.' in lb_master['text'] and value == '.':
+        pass
     else:
-        lb_master['text'] = lb_master['text'] + str(value)
+        if isresult is True or lb_master['text'] == str(0) and value != '.':
+            lb_master['text'] = str(value)
+        else:
+            lb_master['text'] = lb_master['text'] + str(value)
 
-
+2
 # calculate and update label value
 def result(value, operation):
     global lb_master
@@ -95,6 +98,7 @@ btn_div = Button(f_op2, text='/', width=9, height=2, command=lambda: setopbfn(3,
 btn_mult = Button(f_op2, text='*', width=9, height=2, command=lambda: setopbfn(4, lb_master['text']))
 btn_pnt = Button(f_op2, text='.', width=9, height=2, command=lambda: setlabelvalue('.'))
 btn_rs = Button(f_op1, text='=', width=9, height=2, command=lambda: result(lb_master['text'], op))
+btn_clear = Button(f_op1, text='C', width=9, height=2, command=lambda: setlabelvalue(0, True))
 
 
 # gridding & packing
@@ -116,6 +120,7 @@ btn0.grid(column=1, row=4)
 btn_add.grid(column=0, row=1)
 btn_dim.grid(column=0, row=2)
 btn_rs.grid(column=0, row=3)
+btn_clear.grid(column=0, row=4)
 btn_div.grid(column=0, row=1)
 btn_mult.grid(column=0, row=2)
 btn_pnt.grid(column=0, row=3)
